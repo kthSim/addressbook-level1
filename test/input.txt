@@ -100,6 +100,21 @@
   list
 
 ##########################################################
+# test sort command
+##########################################################
+
+  # add new test cases
+  add Adam Brown p/111111 e/adam@gmail.com
+  add Betsy Choo p/222222 e/benchoo@nus.edu.sg
+  add Aloy Chua p/333333 e/chuaAloy@gmail.com
+  add Elanne Lim p/202020 e/elanne@nus.edu.sg
+  add Charlie Brown p/103111 e/brownC@hotmail.com
+  sort name
+  sort phone
+  sort email
+  clear
+
+##########################################################
 # test exit command
 ##########################################################
 

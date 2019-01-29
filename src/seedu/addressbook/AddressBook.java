@@ -127,7 +127,7 @@ public class AddressBook {
     private static final String COMMAND_SORT_WORD = "sort";
     private static final String COMMAND_SORT_DESC = "Sorts address book via selected parameter.";
     private static final String COMMAND_SORT_PARAMETER = "[name] OR [phone] OR [email]";
-    private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD + "phone";
+    private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD + " phone";
     private static final String COMMAND_SORT_NAME = "name";
     private static final String COMMAND_SORT_PHONE = "phone";
     private static final String COMMAND_SORT_EMAIL = "email";
@@ -597,8 +597,6 @@ public class AddressBook {
         String[][] currentArray = new String[currentList.size()][];
         currentList.toArray(currentArray);
 
-        System.out.println(Arrays.deepToString(currentList.toArray()));
-
         switch (commandArgs) {
             case COMMAND_SORT_NAME:
                 Arrays.sort(currentArray, sortNameComparator);
@@ -610,10 +608,8 @@ public class AddressBook {
                 Arrays.sort(currentArray, sortEmailComparator);
                 break;
             default:
-                return "Sort error";
+                return getMessageForInvalidCommandInput(COMMAND_SORT_WORD, getUsageInfoForSortCommand());
         }
-
-        System.out.println("Sorted via " +commandArgs + ":" + Arrays.deepToString(currentArray));
 
         clearAddressBook();
 
@@ -1160,6 +1156,7 @@ public class AddressBook {
                 + getUsageInfoForViewCommand() + LS
                 + getUsageInfoForDeleteCommand() + LS
                 + getUsageInfoForClearCommand() + LS
+                + getUsageInfoForSortCommand() + LS
                 + getUsageInfoForExitCommand() + LS
                 + getUsageInfoForHelpCommand();
     }
@@ -1189,6 +1186,12 @@ public class AddressBook {
     private static String getUsageInfoForClearCommand() {
         return String.format(MESSAGE_COMMAND_HELP, COMMAND_CLEAR_WORD, COMMAND_CLEAR_DESC) + LS
                 + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_CLEAR_EXAMPLE) + LS;
+    }
+
+    private static String getUsageInfoForSortCommand() {
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_SORT_WORD, COMMAND_SORT_DESC) + LS
+            + String.format(MESSAGE_COMMAND_HELP_PARAMETERS, COMMAND_SORT_PARAMETER) + LS
+            + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_SORT_EXAMPLE) + LS;
     }
 
     /** Returns the string for showing 'view' command usage instruction */
