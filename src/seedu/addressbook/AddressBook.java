@@ -14,14 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 /*
  * NOTE : =============================================================
@@ -135,6 +128,10 @@ public class AddressBook {
     private static final String COMMAND_SORT_DESC = "Sorts address book via selected parameter.";
     private static final String COMMAND_SORT_PARAMETER = "[name] OR [phone] OR [email]";
     private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD + "phone";
+    private static final String COMMAND_SORT_NAME = "name";
+    private static final String COMMAND_SORT_PHONE = "phone";
+    private static final String COMMAND_SORT_EMAIL = "email";
+
 
     private static final String COMMAND_EXIT_WORD = "exit";
     private static final String COMMAND_EXIT_DESC = "Exits the program.";
@@ -589,14 +586,44 @@ public class AddressBook {
     }
 
     /**
-     * Sorts the current entries in the Address Book via the chosen parameter.
+     * Sorts the current entries in the Address Book via the chosen parameter and prints it out.
      * Valid parameters are "name", "phone, and "email"
      *
      * @param commandArgs full command args string from the user
      * @return feedback display message for the operation result
      */
     private static String executeSortAddressBook(String commandArgs) {
-        return String.format(MESSAGE_ADDRESSBOOK_SORTED, "test");
+        ArrayList<String[]> currentList = getAllPersonsInAddressBook();
+        String[][] currentArray = new String[currentList.size()][];
+        currentList.toArray(currentArray);
+
+        System.out.println(Arrays.deepToString(currentList.toArray()));
+
+        switch (commandArgs) {
+            case COMMAND_SORT_NAME:
+                Arrays.sort(currentArray, sortNameComparator);
+                break;
+            case COMMAND_SORT_PHONE:
+                Arrays.sort(currentArray, sortPhoneComparator);
+                break;
+            case COMMAND_SORT_EMAIL:
+                Arrays.sort(currentArray, sortEmailComparator);
+                break;
+            default:
+                return "Sort error";
+        }
+
+        System.out.println("Sorted via " +commandArgs + ":" + Arrays.deepToString(currentArray));
+
+        clearAddressBook();
+
+        for (String[] person : currentArray) {
+            addPersonToAddressBook(person);
+        }
+
+        executeListAllPersonsInAddressBook();
+
+        return String.format(MESSAGE_ADDRESSBOOK_SORTED, commandArgs);
     }
 
     /**
@@ -605,6 +632,32 @@ public class AddressBook {
     private static void executeExitProgramRequest() {
         exitProgram();
     }
+
+    /*
+     * ===========================================
+     *               COMPARATOR LOGIC
+     * ===========================================
+     */
+    private static Comparator<String[]> sortNameComparator = new Comparator<String[]>() {
+        @Override
+        public int compare(String[] o1, String[] o2) {
+            return o1[0].compareTo(o2[0]);
+        }
+    };
+
+    private static Comparator<String[]> sortPhoneComparator = new Comparator<String[]>() {
+        @Override
+        public int compare(String[] o1, String[] o2) {
+            return o1[1].compareTo(o2[1]);
+        }
+    };
+
+    private static Comparator<String[]> sortEmailComparator = new Comparator<String[]>() {
+        @Override
+        public int compare(String[] o1, String[] o2) {
+            return o1[2].compareTo(o2[2]);
+        }
+    };
 
     /*
      * ===========================================
