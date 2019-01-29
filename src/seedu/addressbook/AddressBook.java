@@ -634,6 +634,10 @@ public class AddressBook {
      *               COMPARATOR LOGIC
      * ===========================================
      */
+
+    /**
+     * Comparator for Name sorting
+     */
     private static Comparator<String[]> sortNameComparator = new Comparator<String[]>() {
         @Override
         public int compare(String[] o1, String[] o2) {
@@ -641,6 +645,9 @@ public class AddressBook {
         }
     };
 
+    /**
+     * Comparator for Phone number sorting
+     */
     private static Comparator<String[]> sortPhoneComparator = new Comparator<String[]>() {
         @Override
         public int compare(String[] o1, String[] o2) {
@@ -648,6 +655,9 @@ public class AddressBook {
         }
     };
 
+    /**
+     * Comparator for Email sorting
+     */
     private static Comparator<String[]> sortEmailComparator = new Comparator<String[]>() {
         @Override
         public int compare(String[] o1, String[] o2) {
